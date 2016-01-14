@@ -61,12 +61,60 @@ def apply_attribute(examples, attribute_test):
     return true, false
 
 
-if __name__ == '__main__':
-    from sample_dataset import sample_dataset
+def pick_best_attr(sample, attributes, generate_attr_test, truth_label):
+    """Returns the attribute that yields the highest gain."""
+    _, best_attr = max(
+            (gain(sample, generate_attr_test(attr), truth_label), attr)
+            for attr in attributes)
+    return best_attr
 
-    attributes = sample_dataset[0][0].keys()
-    generate_attr_test = lambda attr: lambda x: x[0][attr]
 
-    for attr in attributes:
-        attr_test = generate_attr_test(attr)
-        print attr, 'gain', gain(sample_dataset, attr_test, 1)
+class Node(object):
+
+    def __init__(self, attr, attr_test=None, true_child=None, false_child=None):
+        self.attr = attr
+        self.attr_test = attr_test
+        self.true_child = true_child
+        self.false_child = false_child
+
+    def predict(self, example):
+        if self.attr_test(example):
+            if type(self.true_child) is bool:
+                return self.true_child
+            child = self.true_child
+        else:
+            if type(self.false_child) is bool:
+                return self.false_child
+            child = self.false_child
+        return child.predict(example)
+
+
+def decision_tree(sample, attributes, generate_attr_test, truth_label):
+    root_attr = pick_best_attr(sample, attributes, generate_attr_test, truth_label)
+    root = Node(root_attr, attr_test=generate_attr_test(root_attr))
+
+    true_sample, false_sample = apply_attribute(sample, generate_attr_test(root.attr))
+
+    if entropy(true_sample, root.attr_test, truth_label) == 0:
+        root.true_child = true_sample[0][1] == truth_label
+    else:
+        root.true_child = decision_tree(true_sample, attributes, generate_attr_test, truth_label)
+
+    if entropy(false_sample, root.attr_test, truth_label) == 0:
+        root.false_child = false_sample[0][1] == truth_label
+    else:
+        root.false_child = decision_tree(false_sample, attributes, generate_attr_test, truth_label)
+
+    return root
+
+
+### DEMO ###
+
+from sample_dataset import sample_dataset
+
+attributes = sample_dataset[0][0].keys()
+generate_attr_test = lambda attr: lambda x: x[0][attr]
+
+print 'generating tree'
+tree = decision_tree(sample_dataset, attributes, generate_attr_test, 1)
+
