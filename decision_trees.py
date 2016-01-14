@@ -108,13 +108,15 @@ def decision_tree(sample, attributes, generate_attr_test, truth_label):
     return root
 
 
-### DEMO ###
+if __name__ == '__main__':
+    from sample_dataset import sample_dataset
 
-from sample_dataset import sample_dataset
+    attributes = sample_dataset[0][0].keys()
+    generate_attr_test = lambda attr: lambda x: x[0][attr]
 
-attributes = sample_dataset[0][0].keys()
-generate_attr_test = lambda attr: lambda x: x[0][attr]
+    print 'generating tree'
+    tree = decision_tree(sample_dataset, attributes, generate_attr_test, 1)
 
-print 'generating tree'
-tree = decision_tree(sample_dataset, attributes, generate_attr_test, 1)
-
+    for ex in sample_dataset:
+        print ex
+        print tree.predict(ex)
