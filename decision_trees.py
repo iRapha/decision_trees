@@ -4,7 +4,7 @@ from math import log
 def gain(examples, attribute_test, truth_label):
     """Returns the gain of info after applying an attribute_test.
 
-    Params:
+    Args:
         examples: a list of (example (dict), label) tuples.
         attribute_test: a callable that returns a boolean given an example.
         truth_label: any one of the two labels.
@@ -17,7 +17,7 @@ def gain(examples, attribute_test, truth_label):
 def info(positive, negative):
     """Returns the information to be unpacked in the distribution.
 
-    Params:
+    Args:
         positive: the number of examples with label == truth_label
         negative: the number of examples with label != truth_label
     Returns:
@@ -32,7 +32,7 @@ def info(positive, negative):
 def entropy(examples, attribute_test, truth_label):
     """Returns the entropy after applying an attribute_test.
 
-    Params:
+    Args:
         examples: a list of (example (dict), label) tuples.
         attribute_test: a callable that returns a boolean given an example.
         truth_label: any one of the two labels.
