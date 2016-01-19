@@ -244,7 +244,7 @@ tree_training_set = [
   ({"bath":2,"beds":4,"elevation":11,"index":469,"price":699000,"price_per_sqft":451,"sqft":1550,"year_built":1949,"zip":"94134"},'San Francisco'),
   ({"bath":2,"beds":2,"elevation":10,"index":172,"price":1599000,"price_per_sqft":1142,"sqft":1400,"year_built":1973,"zip":"10028"},'New York'),
   ({"bath":2.5,"beds":4,"elevation":62,"index":390,"price":995000,"price_per_sqft":456,"sqft":2180,"year_built":1915,"zip":"94122"},'San Francisco'),
-  {"bath":3.5,"beds":3,"elevation":127,"index":421,"price":2250000,"price_per_sqft":691,"sqft":3258,"target":1,"year_built":1928,"zip":"94127"},
+  ({"bath":3.5,"beds":3,"elevation":127,"index":421,"price":2250000,"price_per_sqft":691,"sqft":3258,"year_built":1928,"zip":"94127"}, 'San Francisco'),
   ({"bath":3,"beds":3,"elevation":10,"index":116,"price":4875000,"price_per_sqft":2417,"sqft":2017,"year_built":2016,"zip":"10022"},'New York'),
   ({"bath":1,"beds":0,"elevation":6,"index":58,"price":775000,"price_per_sqft":1419,"sqft":546,"year_built":2009,"zip":"10016"},'New York'),
   ({"bath":1,"beds":1,"elevation":80,"index":459,"price":439000,"price_per_sqft":658,"sqft":667,"year_built":2002,"zip":"94132"},'San Francisco'),

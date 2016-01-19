@@ -1,3 +1,4 @@
+from __future__ import division
 from math import log
 
 
@@ -108,15 +109,38 @@ def decision_tree(sample, attributes, generate_attr_test, truth_label):
     return root
 
 
-if __name__ == '__main__':
-    from sample_dataset import sample_dataset
+### INFORMATION GAIN DEMO ###
+# from sample_dataset import sample_dataset
 
-    attributes = sample_dataset[0][0].keys()
-    generate_attr_test = lambda attr: lambda x: x[0][attr]
+# attributes = sample_dataset[0][0].keys()
+# generate_attr_test = lambda attr: lambda x: x[0][attr]
 
-    print 'generating tree'
-    tree = decision_tree(sample_dataset, attributes, generate_attr_test, 1)
+# print 'generating tree'
+# tree = decision_tree(sample_dataset, attributes, generate_attr_test, 1)
 
-    for ex in sample_dataset:
-        print ex
-        print tree.predict(ex)
+# for ex in sample_dataset:
+    # print ex
+    # print tree.predict(ex)
+
+### GINI IMPURITY DEMO ###
+# TODO(irapha): use Gini Impurity.
+from tree_training_set import tree_training_set
+from tree_test_set import tree_test_set
+
+def get_attributes(dataset):
+    attr_names = dataset[0][0].keys()
+    get_value_set = lambda attr: set(ex[0][attr] for ex in dataset)
+    attributes = [(attr_name, attr_value) for attr_name in attr_names for attr_value in get_value_set(attr_name)]
+    return attributes
+
+generate_attr_test = lambda (attr, value): lambda x: x[0][attr] > value
+
+print 'generating_tree'
+tree = decision_tree(tree_training_set, get_attributes(tree_training_set), generate_attr_test, 'San Francisco')
+
+print 'evaluating tree'
+results = [(ex[1] == 'San Francisco') == tree.predict(ex) for ex in tree_test_set]
+
+print 'correct', results.count(True)
+print 'incorrect', results.count(False)
+print results.count(True) / (results.count(True) + results.count(False))
